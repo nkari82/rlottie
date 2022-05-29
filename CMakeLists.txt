@@ -3,13 +3,10 @@ cmake_minimum_required( VERSION 3.3 )
 #declare project
 project( rlottie VERSION 0.2 LANGUAGES C CXX ASM)
 
+option(BUILD_SHARED_LIBS "Build shared library" ON)
+
 if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE MinSizeRel)
-endif()
-
-if (NOT DEFINED BUILD_SHARED_LIBS)
-    # Keep the previous behavior of the build system, consistent with Meson.
-    set(BUILD_SHARED_LIBS ON)
 endif()
 
 #declare target
@@ -74,9 +71,10 @@ else()
 endif()
 
 if (WIN32 AND NOT BUILD_SHARED_LIBS)
+	add_definitions("-DRLOTTIE_STATIC")
     target_compile_definitions(rlottie PUBLIC -DRLOTTIE_BUILD=0)
-    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
-    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
+    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MD")
+    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MDd")
 endif()
 
 #declare dependancy
