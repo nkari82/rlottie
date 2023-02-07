@@ -41,7 +41,7 @@ struct VImageLoader::Impl {
     HMODULE dl_handle{nullptr};
     bool    moduleLoad()
     {
-        dl_handle = LoadLibraryA(LOTTIE_IMAGE_MODULE_PLUGIN);
+        dl_handle = LoadLibraryA(LOTTIE_IMAGE_MODULE_PLUGIN".dll");
         return (dl_handle == nullptr);
     }
     void moduleFree()
@@ -75,7 +75,7 @@ struct VImageLoader::Impl {
     }
     bool moduleLoad()
     {
-        dl_handle = dlopen(LOTTIE_IMAGE_MODULE_PLUGIN, RTLD_LAZY);
+        dl_handle = dlopen(LOTTIE_IMAGE_MODULE_PLUGIN".so", RTLD_LAZY);
         return (dl_handle == nullptr);
     }
 # endif  // _WIN32
